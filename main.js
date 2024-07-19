@@ -1,5 +1,5 @@
-function getElement(selector) {
-    return document.querySelector(selector);
+function getElement(selector, parent = document) {
+    return parent.querySelector(selector);
 }
 
 const elInput = getElement("input");
@@ -7,6 +7,8 @@ const elBtn = getElement("#addBtn");
 const elClearBtn = getElement("#clearBtn");
 const elWrapper = getElement(".wrapper");
 const elCounts = getElement(".all-count");
+const elTemplate = getElement("#template");
+
 let todos = [
     {
         id: 1,
@@ -28,22 +30,18 @@ let todos = [
 
 function showTodos() {
     elWrapper.textContent = "";
-    todos.forEach((item, i) => {
-        const newElement = document.createElement("div");
 
-        newElement.style.backgroundColor = "#f2f2f2";
-        newElement.style.borderRadius = "5px";
-        newElement.className = "d-flex justify-content-between align-items-center p-3 mt-2";
+    todos.reverse().forEach((item, i) => {
+        const newElementFromTemplate = elTemplate.content.cloneNode(true);
 
-        newElement.innerHTML = `
-        <span> ${todos[i].title} </span>
-           <div>
-            <button data-id="${todos[i].id}" class="btn btn-danger">X</button>
-        <button data-bs-toggle="modal" data-bs-target="#exampleModal" data-id="${todos[i].id}" class="edit btn btn-info">Edit</button>
-           </div>
-        `;
+        const elTitle = getElement("span", newElementFromTemplate);
+        const elDeleteBtn = getElement("#delete-btn", newElementFromTemplate);
 
-        elWrapper.appendChild(newElement);
+        elDeleteBtn.dataset.id = todos[i].id;
+
+        elTitle.textContent = i + 1 + " " + todos[i].title;
+
+        elWrapper.appendChild(newElementFromTemplate);
     });
 
     elCounts.textContent = `You have ${todos.length} pending tasks`;
@@ -69,8 +67,6 @@ elBtn.addEventListener("click", () => {
 });
 
 elWrapper.addEventListener("click", (evt) => {
-    console.log(evt);
-
     if (evt.target.className === "btn btn-danger") {
         const id = Number(evt.target.dataset.id);
 
