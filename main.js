@@ -8,7 +8,10 @@ const elClearBtn = getElement("#clearBtn");
 const elWrapper = getElement(".wrapper");
 const elCounts = getElement(".all-count");
 const elTemplate = getElement("#template");
+const elEditInput = getElement("#edit-input");
+const elEditBtn = getElement("#edit-btn");
 
+//2
 let todos = [
     {
         id: 1,
@@ -29,15 +32,20 @@ let todos = [
 ];
 
 function showTodos() {
-    elWrapper.textContent = "";
+    elWrapper.textContent = undefined;
 
-    todos.reverse().forEach((item, i) => {
+    todos.forEach((item, i) => {
         const newElementFromTemplate = elTemplate.content.cloneNode(true);
 
         const elTitle = getElement("span", newElementFromTemplate);
         const elDeleteBtn = getElement("#delete-btn", newElementFromTemplate);
+        const elEditBtn = getElement(".edit", newElementFromTemplate);
+        const elImg = getElement("#img", newElementFromTemplate);
+
+        elImg.src = "./po.png";
 
         elDeleteBtn.dataset.id = todos[i].id;
+        elEditBtn.dataset.id = todos[i].id;
 
         elTitle.textContent = i + 1 + " " + todos[i].title;
 

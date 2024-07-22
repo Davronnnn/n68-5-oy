@@ -1,0 +1,7 @@
+.test {
+    min-height: 80px;
+}
+.test:hover .edit,
+.test:hover .btn-danger {
+    display: inline-block !important;
+}
