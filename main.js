@@ -83,7 +83,7 @@ const pokemonCards = [
     },
 ];
 
-const categories = ["gross", "poison", "nimadir", "test"];
+const categories = ["grass", "poison", "nimadir", "test"];
 const sectionEl = document.querySelector(".row");
 
 const btns = document.querySelectorAll(".btn");
@@ -92,6 +92,21 @@ const template = document.querySelector("template");
 const elCategories = getElement("#categories-list");
 const elSearchInput = getElement("#search");
 const elSubmitBtn = getElement("#submit-btn");
+
+const heartIcon = getElement("#heart");
+const mainDrawer = getElement(".main-drawer");
+const drawer = getElement(".drawer");
+
+const closeIcon = getElement("#close");
+
+heartIcon.addEventListener("click", () => {
+    mainDrawer.style.display = "block";
+    drawer.style.transform = "translateX(0)";
+});
+closeIcon.addEventListener("click", () => {
+    mainDrawer.style.display = "none";
+    drawer.style.transform = "translateX(100%)";
+});
 
 elSubmitBtn.addEventListener("click", () => {
     if (elSearchInput.value.length > 0) {
@@ -117,6 +132,9 @@ window.addEventListener("DOMContentLoaded", function () {
 
 elCategories.addEventListener("change", () => {
     console.log(elCategories.value);
+    const filteredArray = pokemonCards.filter((obyekti) => obyekti.categories.includes(elCategories.value));
+
+    displayPokemonCard(filteredArray);
 });
 
 function displayPokemonCard(menuItems) {

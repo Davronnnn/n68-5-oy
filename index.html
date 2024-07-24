@@ -11,7 +11,7 @@
         <header>
             <div class="logo-con">
                 <img class="logo" src="./images/pokemon_logo 1.svg" alt="" />
-                <img class="heart" src="./images/heart.svg" alt="" />
+                <img id="heart" class="heart" src="./images/heart.svg" alt="" />
             </div>
         </header>
         <div class="container">
@@ -19,10 +19,8 @@
                 <select name="Gross" id="categories-list"></select>
                 <input id="search" type="text" placeholder="Search" />
                 <select name="Aa-Zz" id="cars">
-                    <option value="volvo">Aa-Zz</option>
-                    <option value="saab">Aa-Zz</option>
-                    <option value="mercedes">Aa-Zz</option>
-                    <option value="audi">Aa-Zz</option>
+                    <option value="a-z">Aa-Zz</option>
+                    <option value="age">Age</option>
                 </select>
                 <button id="submit-btn" class="btn btn-light">Button</button>
             </div>
@@ -46,6 +44,13 @@
             </div>
         </template>
 
+        <div class="main-drawer">
+            <div class="bg-drawer">.</div>
+        </div>
+
+        <div class="drawer">
+            <span id="close">x</span>
+        </div>
         <script src="./main.js"></script>
     </body>
 </html>
