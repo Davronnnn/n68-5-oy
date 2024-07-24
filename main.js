@@ -2,83 +2,154 @@ function getElement(selector, parent = document) {
     return parent.querySelector(selector);
 }
 
-const elInput = getElement("input");
-const elBtn = getElement("#addBtn");
-const elClearBtn = getElement("#clearBtn");
-const elWrapper = getElement(".wrapper");
-const elCounts = getElement(".all-count");
-const elTemplate = getElement("#template");
-const elEditInput = getElement("#edit-input");
-const elEditBtn = getElement("#edit-btn");
-
-//2
-let todos = [
+const pokemonCards = [
     {
         id: 1,
-        title: "Kartoshka sotvolish",
+        title: "test",
+        img: "./images/pokemon.png",
+        categories: ["grass", "poison"],
+        weight: "8.9kg",
+        age: 5,
     },
     {
         id: 2,
-        title: "Dars qilish",
+        title: "Pokemons",
+
+        img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ_FWF2judaujT30K9sMf-tZFhMWpgP6xCemw&s",
+
+        categories: ["grass", "poison", "nimadir"],
+        weight: "6.9kg",
+        age: 99,
     },
     {
         id: 3,
-        title: "nimadir sotvolish",
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison"],
+        weight: "6.9kg",
+        age: 99,
     },
     {
         id: 4,
-        title: "nimadir qilish",
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison"],
+        weight: "6.9kg",
+        age: 99,
+    },
+    {
+        id: 5,
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison"],
+        weight: "6.9kg",
+        age: 99,
+    },
+    {
+        id: 6,
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison"],
+        weight: "6.9kg",
+        age: 99,
+    },
+    {
+        id: 7,
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison"],
+        weight: "6.9kg",
+        age: 99,
+    },
+    {
+        id: 8,
+        title: "Pokemons",
+
+        img: "./images/pokemon.png",
+
+        categories: ["grass", "poison", "test"],
+        weight: "6.9kg",
+        age: 99,
     },
 ];
 
-function showTodos() {
-    elWrapper.textContent = undefined;
+const categories = ["gross", "poison", "nimadir", "test"];
+const sectionEl = document.querySelector(".row");
 
-    todos.forEach((item, i) => {
-        const newElementFromTemplate = elTemplate.content.cloneNode(true);
+const btns = document.querySelectorAll(".btn");
+const template = document.querySelector("template");
 
-        const elTitle = getElement("span", newElementFromTemplate);
-        const elDeleteBtn = getElement("#delete-btn", newElementFromTemplate);
-        const elEditBtn = getElement(".edit", newElementFromTemplate);
-        const elImg = getElement("#img", newElementFromTemplate);
+const elCategories = getElement("#categories-list");
+const elSearchInput = getElement("#search");
+const elSubmitBtn = getElement("#submit-btn");
 
-        elImg.src = "./po.png";
+elSubmitBtn.addEventListener("click", () => {
+    if (elSearchInput.value.length > 0) {
+        const filteredArray = pokemonCards.filter((item) => item.title.toLowerCase().includes(elSearchInput.value.toLowerCase()));
 
-        elDeleteBtn.dataset.id = todos[i].id;
-        elEditBtn.dataset.id = todos[i].id;
-
-        elTitle.textContent = i + 1 + " " + todos[i].title;
-
-        elWrapper.appendChild(newElementFromTemplate);
-    });
-
-    elCounts.textContent = `You have ${todos.length} pending tasks`;
-}
-
-showTodos();
-
-elClearBtn.addEventListener("click", () => {
-    todos = [];
-    showTodos();
-});
-
-elBtn.addEventListener("click", () => {
-    const newTodo = {
-        title: elInput.value,
-        id: todos.length === 0 ? 1 : todos[todos.length - 1].id + 1,
-    };
-    todos.push(newTodo);
-
-    showTodos();
-
-    elInput.value = "";
-});
-
-elWrapper.addEventListener("click", (evt) => {
-    if (evt.target.className === "btn btn-danger") {
-        const id = Number(evt.target.dataset.id);
-
-        todos = todos.filter((todo) => todo.id !== id);
-        showTodos();
+        displayPokemonCard(filteredArray);
+    } else {
+        displayPokemonCard(pokemonCards);
     }
 });
+
+window.addEventListener("DOMContentLoaded", function () {
+    displayPokemonCard(pokemonCards);
+
+    categories.forEach((category) => {
+        const newOption = document.createElement("option");
+        newOption.value = category;
+        newOption.textContent = category;
+
+        elCategories.appendChild(newOption);
+    });
+});
+
+elCategories.addEventListener("change", () => {
+    console.log(elCategories.value);
+});
+
+function displayPokemonCard(menuItems) {
+    sectionEl.textContent = null;
+
+    let displayPokemonCard = menuItems.map((item) => {
+        const newElement = template.content.cloneNode(true);
+
+        const topImg = getElement(".card-img-top", newElement);
+        const title = getElement(".card-title", newElement);
+        const weight = getElement(".card-weight", newElement);
+        const age = getElement(".card-age", newElement);
+        const categories = getElement(".categories", newElement);
+
+        topImg.src = item.img;
+        title.textContent = item.title;
+        weight.textContent = item.weight;
+        age.textContent = item.age;
+
+        item.categories.map((category, i) => {
+            const newLi = document.createElement("li");
+            const span = document.createElement("span");
+
+            if (item.categories.length - 1 !== i) {
+                span.textContent = ", ";
+            }
+
+            newLi.textContent = category;
+
+            categories.appendChild(newLi);
+            categories.appendChild(span);
+        });
+
+        sectionEl.appendChild(newElement);
+    });
+}
